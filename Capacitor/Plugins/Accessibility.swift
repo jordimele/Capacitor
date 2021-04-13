@@ -5,10 +5,14 @@ import SafariServices
 public class CAPAccessibilityPlugin : CAPPlugin {
   static let SCREEN_READER_STATE_CHANGE_EVENT = "accessibilityScreenReaderStateChange"
   public override func load() {
-    NotificationCenter.default.addObserver(self,
-                                           selector: #selector(self.onScreenReaderStateChanged(notification:)),
-                                           name: UIAccessibility.voiceOverStatusDidChangeNotification,
-                                           object: nil)
+    if #available(iOS 11.0, *) {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.onScreenReaderStateChanged(notification:)),
+                                               name: UIAccessibility.voiceOverStatusDidChangeNotification,
+                                               object: nil)
+    } else {
+        // Fallback on earlier versions
+    }
   }
   
   @objc func onScreenReaderStateChanged(notification: NSNotification) {

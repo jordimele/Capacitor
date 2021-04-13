@@ -220,8 +220,12 @@ public class CAPCameraPlugin : CAPPlugin, UIImagePickerControllerDelegate, UINav
       imageMetadata = photoMetadata
       isGallery = false
     }
-    if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
-      imageMetadata = getImageMeta(asset: asset)!
+    if #available(iOS 11.0, *) {
+        if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
+            imageMetadata = getImageMeta(asset: asset)!
+        }
+    } else {
+        // Fallback on earlier versions
     }
 
     if settings.shouldResize {

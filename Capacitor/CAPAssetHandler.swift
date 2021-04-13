@@ -9,7 +9,8 @@ class CAPAssetHandler: NSObject, WKURLSchemeHandler {
     self.basePath = assetPath;
   }
 
-  func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
+    @available(iOS 11.0, *)
+    func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
       var startPath = self.basePath
       let url = urlSchemeTask.request.url!
       let stringToLoad = url.path
@@ -54,7 +55,8 @@ class CAPAssetHandler: NSObject, WKURLSchemeHandler {
       urlSchemeTask.didFinish()
   }
 
-  func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
+    @available(iOS 11.0, *)
+    func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
     CAPLog.print("scheme stop")
   }
 

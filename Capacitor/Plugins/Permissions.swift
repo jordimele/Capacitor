@@ -59,6 +59,8 @@ public class CAPPermissionsPlugin: CAPPlugin {
         ret = "denied"
       case .authorized:
         ret = "granted"
+    case .limited:
+        ret = "prompt"
     }
     call.resolve([
       "state": ret
@@ -94,6 +96,8 @@ public class CAPPermissionsPlugin: CAPPlugin {
       case .denied:
         ret = "denied"
       case .notDetermined:
+        ret = "prompt"
+      case .ephemeral:
         ret = "prompt"
       }
       

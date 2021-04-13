@@ -56,10 +56,18 @@ public class CAPBridgeViewController: UIViewController, CAPBridgeDelegate, WKScr
     var specifiedScheme = CAPBridge.CAP_DEFAULT_SCHEME
     let configScheme = capConfig.getString("server.iosScheme") ?? CAPBridge.CAP_DEFAULT_SCHEME
     // check if WebKit handles scheme and if it is valid according to Apple's documentation
-    if !WKWebView.handlesURLScheme(configScheme) && configScheme.range(of: "^[a-z][a-z0-9.+-]*$", options: [.regularExpression, .caseInsensitive], range: nil, locale: nil) != nil {
-      specifiedScheme = configScheme.lowercased()
+    if #available(iOS 11.0, *) {
+        if !WKWebView.handlesURLScheme(configScheme) && configScheme.range(of: "^[a-z][a-z0-9.+-]*$", options: [.regularExpression, .caseInsensitive], range: nil, locale: nil) != nil {
+            specifiedScheme = configScheme.lowercased()
+        }
+    } else {
+        // Fallback on earlier versions
     }
-    webViewConfiguration.setURLSchemeHandler(self.handler, forURLScheme: specifiedScheme)
+    if #available(iOS 11.0, *) {
+        webViewConfiguration.setURLSchemeHandler(self.handler, forURLScheme: specifiedScheme)
+    } else {
+        // Fallback on earlier versions
+    }
 
     let o = WKUserContentController()
     o.add(self, name: "bridge")
@@ -77,9 +85,17 @@ public class CAPBridgeViewController: UIViewController, CAPBridgeDelegate, WKScr
     let availableInsets = ["automatic", "scrollableAxes", "never", "always"]
     if let contentInset = (capConfig.getValue("ios.contentInset") as? String),
       let index = availableInsets.firstIndex(of: contentInset) {
-      webView?.scrollView.contentInsetAdjustmentBehavior = UIScrollView.ContentInsetAdjustmentBehavior.init(rawValue: index)!
+        if #available(iOS 11.0, *) {
+            webView?.scrollView.contentInsetAdjustmentBehavior = UIScrollView.ContentInsetAdjustmentBehavior.init(rawValue: index)!
+        } else {
+            // Fallback on earlier versions
+        }
     } else {
-      webView?.scrollView.contentInsetAdjustmentBehavior = .never
+        if #available(iOS 11.0, *) {
+            webView?.scrollView.contentInsetAdjustmentBehavior = .never
+        } else {
+            // Fallback on earlier versions
+        }
     }
 
     webView?.uiDelegate = self

@@ -351,11 +351,15 @@ public class CAPLocalNotificationsPlugin : CAPPlugin {
       // Create the custom actions for the TIMER_EXPIRED category.
       var newCategory: UNNotificationCategory?
       
-      newCategory = UNNotificationCategory(identifier: id,
-                                               actions: newActions,
-                                               intentIdentifiers: [],
-                                               hiddenPreviewsBodyPlaceholder: hiddenBodyPlaceholder,
-                                               options: makeCategoryOptions(type))
+        if #available(iOS 11.0, *) {
+            newCategory = UNNotificationCategory(identifier: id,
+                                                 actions: newActions,
+                                                 intentIdentifiers: [],
+                                                 hiddenPreviewsBodyPlaceholder: hiddenBodyPlaceholder,
+                                                 options: makeCategoryOptions(type))
+        } else {
+            // Fallback on earlier versions
+        }
       
       
       createdCategories.append(newCategory!)
@@ -443,10 +447,18 @@ public class CAPLocalNotificationsPlugin : CAPPlugin {
     }
     
     if hiddenPreviewsShowTitle {
-      return .hiddenPreviewsShowTitle
+        if #available(iOS 11.0, *) {
+            return .hiddenPreviewsShowTitle
+        } else {
+            // Fallback on earlier versions
+        }
     }
     if hiddenPreviewsShowSubtitle {
-      return .hiddenPreviewsShowSubtitle
+        if #available(iOS 11.0, *) {
+            return .hiddenPreviewsShowSubtitle
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     return UNNotificationCategoryOptions(rawValue: 0)
