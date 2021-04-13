@@ -5,10 +5,10 @@ Pod::Spec.new do |s|
 	s.social_media_url = 'http://twitter.com/getcapacitor'
   s.license = 'MIT'
   s.homepage = 'https://capacitor.ionicframework.com/'
-  s.ios.deployment_target  = '11.0'
+  s.ios.deployment_target  = '10.3'
   s.authors = { 'Ionic Team' => 'hi@ionicframework.com' }
-  s.source = { :git => 'https://github.com/ionic-team/capacitor.git', :tag => s.version.to_s }
-  s.source_files = 'ios/Capacitor/Capacitor/*.{swift,h,m}', 'ios/Capacitor/Capacitor/Plugins/*.{swift,h,m}', 'ios/Capacitor/Capacitor/Plugins/**/*.{swift,h,m}'
+  s.source       = { :git => 'https://github.com/jordimele/Capacitor', :branch => 'develop' }
+  s.source_files = 'Capacitor/*.{swift,h,m}', 'Capacitor/Plugins/*.{swift,h,m}', 'Capacitor/Plugins/**/*.{swift,h,m}'
   s.dependency 'CapacitorCordova', '2.1.1'
   s.swift_version = '5.0'
 end
